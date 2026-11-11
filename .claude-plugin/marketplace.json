@@ -1,0 +1,12 @@
+{
+  "name": "source-lookup",
+  "owner": { "name": "Hwaryuh" },
+  "description": "Source lookup: verify external APIs against the dependency source a project actually resolves.",
+  "plugins": [
+    {
+      "name": "source-lookup",
+      "source": ".",
+      "description": "Makes Claude check external library, SDK and engine APIs against the locally resolved source of the exact version a project uses, instead of answering from memory."
+    }
+  ]
+}

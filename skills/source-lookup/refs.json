@@ -1,0 +1,64 @@
+{
+  "refs": [
+    {
+      "name": "roblox-api-dump",
+      "kind": "raw",
+      "repo": "MaximumADHD/Roblox-Client-Tracker",
+      "ref": "roblox",
+      "files": ["Full-API-Dump.json", "version.txt"],
+      "versionFile": "version.txt",
+      "covers": "Roblox engine API dump: every class, member, enum, security level and tag for one Studio version."
+    },
+    {
+      "name": "roblox-creator-docs",
+      "kind": "git",
+      "repo": "Roblox/creator-docs",
+      "ref": "main",
+      "sparse": ["content/en-us/reference/engine"],
+      "versionFile": "content/en-us/reference/engine/STUDIO_VERSION",
+      "covers": "Roblox Engine API reference as YAML: descriptions, deprecation messages and code samples."
+    },
+    {
+      "name": "luau-docs",
+      "kind": "git",
+      "repo": "luau-lang/site",
+      "ref": "master",
+      "sparse": ["src/content/docs"],
+      "covers": "Luau language, type system and standard library documentation."
+    },
+    {
+      "name": "rust-releases",
+      "kind": "raw",
+      "repo": "rust-lang/rust",
+      "ref": "main",
+      "files": ["RELEASES.md"],
+      "covers": "Rust release notes: what each compiler version stabilized or changed. Not crate APIs."
+    },
+    {
+      "name": "rust-edition-guide",
+      "kind": "git",
+      "repo": "rust-lang/edition-guide",
+      "ref": "master",
+      "sparse": ["src"],
+      "covers": "Rust edition changes and migrations. Not crate APIs."
+    },
+    {
+      "name": "swift-foundation",
+      "kind": "git",
+      "repo": "swiftlang/swift-foundation",
+      "ref": null,
+      "refHint": "the toolchain tag, for example swift-6.1-RELEASE (see swift --version)",
+      "sparse": ["Sources"],
+      "covers": "FoundationEssentials and FoundationInternationalization source used on non-Apple platforms."
+    },
+    {
+      "name": "swift-corelibs-foundation",
+      "kind": "git",
+      "repo": "swiftlang/swift-corelibs-foundation",
+      "ref": null,
+      "refHint": "the toolchain tag, for example swift-6.1-RELEASE (see swift --version)",
+      "sparse": ["Sources"],
+      "covers": "Foundation source for Windows and Linux (the parts not in swift-foundation)."
+    }
+  ]
+}

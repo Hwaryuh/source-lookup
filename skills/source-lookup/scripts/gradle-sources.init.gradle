@@ -1,0 +1,57 @@
+// Gradle init script: downloads -sources.jar files of resolved dependencies into the Gradle cache.
+// It adds one task and changes no project files.
+//
+//   ./gradlew -q --init-script <path>/gradle-sources.init.gradle sourceLookupSources [-PsourceLookupFilter=<artifact>]
+//
+// -PsourceLookupFilter limits the download to modules whose group:artifact contains the given text.
+
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.result.ResolvedArtifactResult
+import org.gradle.jvm.JvmLibrary
+import org.gradle.language.base.artifact.SourcesArtifact
+
+allprojects {
+    tasks.register('sourceLookupSources') {
+        group = 'source lookup'
+        description = 'Downloads -sources.jar files of resolved dependencies into the Gradle cache.'
+        if (it.metaClass.respondsTo(it, 'notCompatibleWithConfigurationCache', String)) {
+            it.notCompatibleWithConfigurationCache('resolves dependencies when the task runs')
+        }
+        doLast {
+            String filter = project.findProperty('sourceLookupFilter')?.toString()
+            Set<ModuleComponentIdentifier> ids = new LinkedHashSet<>()
+            ['compileClasspath', 'runtimeClasspath', 'testCompileClasspath'].each { name ->
+                def configuration = project.configurations.findByName(name)
+                if (configuration == null || !configuration.canBeResolved) return
+                configuration.incoming.resolutionResult.allComponents.each { component ->
+                    def id = component.id
+                    if (id instanceof ModuleComponentIdentifier) {
+                        String coordinates = "${id.group}:${id.module}"
+                        if (filter == null || coordinates.contains(filter)) ids.add(id)
+                    }
+                }
+            }
+            if (ids.isEmpty()) {
+                println "source-lookup ${project.path}: no matching modules"
+                return
+            }
+            def result = project.dependencies.createArtifactResolutionQuery()
+                .forComponents(ids)
+                .withArtifacts(JvmLibrary, SourcesArtifact)
+                .execute()
+            int found = 0
+            List<String> missing = []
+            result.resolvedComponents.each { component ->
+                def artifacts = component.getArtifacts(SourcesArtifact)
+                def files = artifacts.findAll { it instanceof ResolvedArtifactResult }
+                if (files.isEmpty()) {
+                    missing << component.id.displayName
+                } else {
+                    files.each { println "sources: ${it.file}"; found++ }
+                }
+            }
+            println "source-lookup ${project.path}: ${found} sources jars, ${missing.size()} modules without sources"
+            missing.each { println "  no sources: ${it}" }
+        }
+    }
+}

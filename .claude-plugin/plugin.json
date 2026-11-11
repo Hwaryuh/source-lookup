@@ -1,0 +1,10 @@
+{
+  "name": "source-lookup",
+  "version": "0.1.0",
+  "description": "Makes Claude check external library, SDK and engine APIs against the locally resolved source of the exact version a project uses, instead of answering from memory.",
+  "author": { "name": "Hwaryuh" },
+  "homepage": "https://github.com/Hwaryuh/source-lookup",
+  "repository": "https://github.com/Hwaryuh/source-lookup",
+  "license": "MIT",
+  "keywords": ["dependencies", "api", "hallucination", "source", "skill"]
+}
